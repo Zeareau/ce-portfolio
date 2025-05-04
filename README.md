@@ -75,4 +75,4 @@ Hosted statically through GitHub.
 
 Thanks for checking it out!
 
-- Chris
+Chris
