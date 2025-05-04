@@ -73,6 +73,6 @@ Hosted statically through GitHub.
 
 ---
 
-Thanks for checking it out.
+Thanks for checking it out!
 
-— Christopher Enriquez
+- Chris
