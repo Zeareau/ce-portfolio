@@ -3,12 +3,11 @@ name: Deploy to S3 + CloudFront
 on:
   push:
     branches:
-      - main   # Runs this workflow whenever you push to the main branch
+      - main  # Runs this workflow whenever you push to the main branch
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -29,13 +28,17 @@ jobs:
         with:
           args: --delete
         env:
-          AWS_S3_BUCKET: project-isengard   # replace with your bucket name
+          AWS_S3_BUCKET: project-isengard
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: us-east-1
-          SOURCE_DIR: dist   # adjust if your build output folder is different
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+          SOURCE_DIR: dist  # adjust if your build output folder is different
 
       - name: Invalidate CloudFront cache
         uses: chetan/invalidate-cloudfront-action@v2
-        with:
-          distribution-id: E1O2ABP4EV436A   # cloudfront distribution id
+        env:
+          DISTRIBUTION: E1O2ABP4EV436A   # <-- your CloudFront distribution ID
+          PATHS: "/*"
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
